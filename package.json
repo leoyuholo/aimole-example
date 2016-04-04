@@ -1,0 +1,10 @@
+{
+  "name": "aimole-example",
+  "scripts": {
+    "dev": "lite-server"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "lite-server": "^2.1.0"
+  }
+}
