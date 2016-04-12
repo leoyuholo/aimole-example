@@ -1,7 +1,20 @@
+// require external dependency socket.io, https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js
 (function(global){
 	'use strict';
 
-	var aimole = URI(window.location).fragment(true);
+	var parseParams = () => {
+		var vars = window.location.hash.replace(/^#/, '').split('&');
+		var params = {};
+		for(var i = 0, l = vars.length; i < l; i++) {
+			if(vars[i] !== '') {
+				var pair = vars[i].split('=');
+				if(pair[0]) params[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+			}
+		}
+		return params;
+	}
+
+	var aimole = parseParams();
 	if (aimole.display) {
 		try {
 			aimole.display = JSON.parse(aimole.display);
@@ -12,6 +25,12 @@
 	} else if (aimole.streamUrl && aimole.matchId) {
 		aimole.display = [];
 		io(aimole.streamUrl, {query: 'matchId=' + aimole.matchId})
+			.on('queueing', () => {
+				// console.log('queueing');
+			})
+			.on('start', () => {
+				// console.log('start');
+			})
 			.on('display', (data) => {
 				// console.log('display', data);
 				aimole.display.push(data);
@@ -19,7 +38,7 @@
 			.on('err', (errMsg) => {
 				console.error(new Error(errMsg));
 			})
-			.on('end', (match) => {
+			.on('end', () => {
 				// console.log('end');
 			})
 			.on('disconnect', (reason) => {
