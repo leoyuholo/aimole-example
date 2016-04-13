@@ -3,13 +3,13 @@
 	'use strict';
 
 	var parseParams = () => {
-		var vars = window.location.hash.replace(/^#\?/, '').split('&');
+		var hash = window.location.hash.replace(/^#/, '');
+		if (!hash) return {}
 		var params = {};
-		for(var i = 0, l = vars.length; i < l; i++) {
-			if(vars[i] !== '') {
-				var pair = vars[i].split('=');
-				if(pair[0]) params[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
-			}
+		try{
+			params = JSON.parse(decodeURIComponent(hash));
+		} catch (err) {
+			console.error(err, 'hash: ' + hash);
 		}
 		return params;
 	}
