@@ -15,6 +15,7 @@
 	}
 
 	var aimole = parseParams();
+	console.log('aimole', aimole);
 	if (aimole.display) {
 		try {
 			aimole.display = JSON.parse(aimole.display);
