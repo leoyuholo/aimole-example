@@ -22,28 +22,28 @@
 			console.error(err, 'JSON string: ' + aimole.display);
 			aimole.display = [];
 		}
-		// console.log('aimole.display', aimole.display);
+		console.log('aimole.display', aimole.display);
 	} else if (aimole.streamUrl && aimole.matchId) {
 		aimole.display = [];
 		io(aimole.streamUrl, {query: 'matchId=' + aimole.matchId})
 			.on('queueing', () => {
-				// console.log('queueing');
+				console.log('queueing');
 			})
 			.on('start', () => {
-				// console.log('start');
+				console.log('start');
 			})
 			.on('display', (data) => {
-				// console.log('display', data);
+				console.log('display', data);
 				aimole.display.push(data);
 			})
 			.on('err', (errMsg) => {
 				console.error(new Error(errMsg));
 			})
 			.on('end', () => {
-				// console.log('end');
+				console.log('end');
 			})
 			.on('disconnect', (reason) => {
-				// console.log('socket disconnected, reason: ', reason);
+				console.log('socket disconnected, reason: ', reason);
 			});
 	}
 
