@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html ng-app="aimole-example">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>aimole example</title>
+
+        <!-- libraries for demo purpose -->
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.11.0/lodash.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.4/angular.min.js"></script>
+    </head>
+
+    <style type="text/css">
+        html, body, .container-fuild, .row, .col-md-6 {
+            height: 100%;
+        }
+        iframe {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+    <body>
+        <div class="container-fuild" ng-controller="iframeController">
+            <div class="row">
+                <div class="col-md-6">
+                    <iframe ng-if="iframUrl" ng-src="{{iframUrl}}"></iframe>
+                </div>
+                <div class="col-md-6">
+                    <h1>aimole game view simulator</h1>
+                    <form>
+                        <div class="form-group">
+                            <label>viewUrl:</label>
+                            <input class="form-control" type="text" ng-model="viewUrl"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>display:</label>
+                            <textarea class="form-control" rows="10" type="text" ng-model="params.display"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>simulateStreaming:</label>
+                            <input type="checkbox" ng-model="params.simulateStreaming">
+                        </div>
+                        <label>URL hash:</label>
+                        <a ng-href="{{viewUrl}}#{{params | hashParams}}" target="_blank">Full URL</a>
+                        <pre style="white-space: pre-wrap; max-height: 100px">{{params | hashParams}}</pre>
+                        <button class="btn btn-default" type="button" ng-click="refresh()">Refresh</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            'use strict'
+            let hashParams = (params) => {
+                console.log('hashParams');
+                return _.compact(_.map(params, (v, k) => v ? `${encodeURIComponent(k)}=${encodeURIComponent(v)}` : '')).join('&');
+            };
+            angular.module('aimole-example', [])
+                .filter('hashParams', () => hashParams)
+                .controller('iframeController', ($scope, $sce, $timeout, $q) => {
+                    $scope.viewUrl = localStorage.getItem('viewUrl') || 'index.dev.html';
+                    $scope.params = JSON.parse(localStorage.getItem('params') || '{}');
+                    $scope.params.display = $scope.params.display || '[{"board":[[0,0,0],[0,0,0],[0,0,0]]},{"board":[[0,0,0],[0,1,0],[0,0,0]]}]';
+                    $scope.params.simulateStreaming = $scope.params.simulateStreaming || false;
+                    $scope.iframUrl = '';
+
+                    $scope.refresh = () => {
+                        localStorage.setItem('viewUrl', $scope.viewUrl);
+                        localStorage.setItem('params', JSON.stringify($scope.params));
+                        $scope.iframUrl = '';
+                        $timeout(() => {$scope.iframUrl = $sce.trustAsResourceUrl(`${$scope.viewUrl}#${hashParams($scope.params)}`);}, 0);
+                    };
+
+                    $scope.refresh();
+                });
+        </script>
+    </body>
+</html>

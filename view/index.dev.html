@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>aimole example</title>
+
+        <!-- libraries for demo purpose -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/rivets/0.8.1/rivets.bundled.min.js"></script>
+
+        <!-- libraries for aimole data -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
+        <!-- <script src="aimole.js"></script> -->
+        <script src="aimole.dev.js"></script>
+    </head>
+
+    <body>
+        <div id="main">
+            <li rv-each-item="aimole.display">
+                {item | stringify}
+            </li>
+        </div>
+        <script type="text/javascript">
+            rivets.formatters.stringify = JSON.stringify;
+            rivets.bind($('#main'), {aimole: window.aimole});
+        </script>
+    </body>
+</html>
