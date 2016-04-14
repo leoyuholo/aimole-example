@@ -54,7 +54,6 @@
         <script type="text/javascript">
             'use strict'
             let hashParams = (params) => {
-                console.log('hashParams');
                 return _.compact(_.map(params, (v, k) => v ? `${encodeURIComponent(k)}=${encodeURIComponent(v)}` : '')).join('&');
             };
             angular.module('aimole-example', [])
