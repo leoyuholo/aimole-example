@@ -10,6 +10,10 @@
     "file": "verdict/verdict.py",
     "language": "python"
   },
+  "ranking": {
+    "scheme": "max",
+    "baseScore": 0
+  },
   "ai": [
     {
       "name": "simple",
