@@ -3,9 +3,9 @@
   "description": "This is an example of aimole game.",
   "author": "Leo Yu Ho, Lo <leoyuholo@gmail.com>",
   "version": "0.0.0",
-  "viewUrl": "http://pd3.dev:3000/aimole-example/",
-  "bgUrl": "http://pd3.dev:3000/aimole-example/bg.jpg",
-  "players": 2,
+  "viewUrl": "https://cdn.rawgit.com/leoyuholo/aimole-example/master/view/index.dev.html",
+  "bgUrl": "https://cdn.rawgit.com/leoyuholo/aimole-example/master/view/bg.jpg",
+  "players": 1,
   "verdict": {
     "file": "verdict/verdict.py",
     "language": "python"
